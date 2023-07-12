@@ -1,0 +1,16 @@
+.navbar {
+    background-color: rgb(255, 192, 203);
+ }
+ .navbar-brand {
+    padding-left: 20px;   
+ }
+ .nav-item {
+    align-items: center;
+    justify-content: center;
+    display:flex;
+ }
+
+ .cart-image {
+   height: 35.6px;
+   width: 50.8px;
+ }

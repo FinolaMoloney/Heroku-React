@@ -1,25 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './App.css';
+import ProductList from './components/ProductList';
+import Home from './views/Home';
+import About from './views/About';
+import Contact from './views/Contact';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Cart from './components/Cart';
+import GlutenFreeProducts from './components/GlutenFreeProducts';
+import DiaryFreeProducts from './components/DiaryFreeProducts';
 
 function App() {
+  const [cartItems, setCartItems] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/products" element={<ProductList cartItems={cartItems} setCartItems={setCartItems} />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/cart" element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
+          <Route path="/gluten-free" element={<GlutenFreeProducts />} />
+          <Route path="/diary-free" element={<DiaryFreeProducts />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

@@ -1,0 +1,9 @@
+body, html {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.footer {
+    background-color: pink;
+    text-align: right;
+    padding-right: 20px;
+}

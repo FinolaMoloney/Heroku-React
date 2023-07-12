@@ -1,0 +1,27 @@
+body, html {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.row {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    justify-content:center;
+    align-items: center;
+    display:flex;
+}
+
+.contact-form{
+    display:table;
+    margin:auto;
+}
+
+.logos {
+    height: 50px;
+    width: 50px;
+}
+
+.contactFormBorder {
+    border: 2px solid rgb(187, 187, 187);
+    border-radius: 5px;
+    padding: 10px;
+}

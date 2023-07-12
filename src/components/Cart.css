@@ -1,0 +1,15 @@
+.cart {
+    text-align: left;
+}
+
+.checkout-button {
+    float:right;
+}
+
+.checkout-box {
+    float:right;
+}
+
+.card {
+    padding: 10px;
+}
