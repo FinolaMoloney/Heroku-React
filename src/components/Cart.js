@@ -7,6 +7,7 @@ import '../components/Contact.css';
 
 function Cart({ cartItems, setCartItems }) {
   const [itemCount, setItemCount] = useState();
+  const [emptyMsg, setEmptyMsg] = useState('');
   //const [totalprice, setTotalPrice] = useState('');
   //const [convertPrice, setConvertPrice] = useState('');
   
@@ -21,12 +22,21 @@ function Cart({ cartItems, setCartItems }) {
 }, [])
 
 async function addToCart() {
-  const testNewTitles = cartItems.map(({ title }) => title).join(', ');
+  if (cartItems.length === 0) {
+    console.log("No items in the cart");
+    return (
+      setEmptyMsg("Oops looks like your cart is empty, please add items before checking out!")
+    );
+  }
+  const testOrderTitles = cartItems.map(({ title }) => title).join(', ');
+  const testOrderDescription = cartItems.map(({ description }) => description).join(', ');
+  const testOrderPrice = cartItems.map(({ price }) => price).join(', ');
+  const testOrderQuantity = cartItems.map(({ quantity }) => quantity).join(', ');
 
   try {
     const response = await axios.post(
       "http://localhost:4000/orders",
-      { title: testNewTitles },
+      { title: testOrderTitles, description: testOrderDescription, price: testOrderPrice, quantity: testOrderQuantity, emailAddress: userEmail},
       { headers: { Accept: "application/json" } }
     );
 
@@ -38,9 +48,15 @@ async function addToCart() {
   }
 }
 
-
-
-console.log(cartItems)
+  //add or remove products functionality
+  const handleQuantityChange = (index, quantityChange) => {
+    const updatedCartItems = [...cartItems];
+    const updatedItem = { ...updatedCartItems[index] };
+    updatedItem.quantity += quantityChange;
+    updatedCartItems[index] = updatedItem;
+    setCartItems(updatedCartItems);
+  };
+  
   //Checkout Details
 
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -62,14 +78,39 @@ console.log(cartItems)
           <h6>YOUR SHOPPING CART</h6>
             <div className="card-body cart"> <br/>
               {cartItems.map((item, index) => (
-              <div key={index}>
-                <p>{item.title} {item.price}</p>
+              <div className="row" key={index}>
+                <table>
+                  <tr>
+                    <th className="col-sm-4">Product:</th><th className="col-sm-6">Description:</th><th className="col-sm-2">Price:</th>
+                  </tr>
+                  <tbody>
+                    <tr>
+                      <td className="col-sm-4">{item.title}</td><td className="col-sm-6">{item.description}</td><td className="col-sm-2">€ {item.price}</td>
+                  </tr>
+                  </tbody>
+                </table>
+                <div className="quantity-control">
+                  <button
+                    className="quantity-btn"
+                    onClick={() => handleQuantityChange(index, -1)}
+                  >
+                    -
+                  </button>
+                  <p className="item-quantity">{item.quantity}</p>
+                  <button
+                    className="quantity-btn"
+                    onClick={() => handleQuantityChange(index, 1)}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
               ))}
             </div>
           </div>
           <br/>
           <Link to="/products" className="btn btn-outline-secondary btn-sm">Continue Shopping</Link>
+          <p>{emptyMsg}</p>
         </div>
         <div className="col-sm-4">
           <div className="card">
@@ -78,7 +119,7 @@ console.log(cartItems)
             <div className="card-body">        
               <div>
                 <p className="cart">{itemCount} Item(s)<br/><br/>Total to pay:</p>
-                <button className="btn btn-outline-secondary btn-sm checkout-button" onClick={addToCart}>Checkout</button>
+
               </div>
             </div>
           </div>
@@ -86,7 +127,7 @@ console.log(cartItems)
       </div>
       <div className="row">
         <div className="col-sm-8">
-
+                
         </div>
       <div className="col-sm-4 ">
           <div className="card">
@@ -182,7 +223,7 @@ console.log(cartItems)
                       {errors.cvv && (<small>{errors.cvv.message}</small>)}
                   </div>
                   <br></br>
-                  <button className="btn btn-outline-secondary btn-sm" type="submit">Place Order</button>
+                  <button className="btn btn-outline-secondary btn-sm" type="submit" onClick={addToCart}>Pay Now</button>
                 </form>
                 )}
               </div>
