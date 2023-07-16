@@ -8,45 +8,48 @@ import '../components/Contact.css';
 function Cart({ cartItems, setCartItems }) {
   const [itemCount, setItemCount] = useState();
   const [emptyMsg, setEmptyMsg] = useState('');
-  //const [totalprice, setTotalPrice] = useState('');
-  //const [convertPrice, setConvertPrice] = useState('');
+  let [convertPrice, setConvertPrice] = useState([]);
+  let [totalPrice, setTotalPrice] = useState();
   
+ //Return cart items 
   useEffect(() =>
   async function () {
     const response = await axios.get("http://localhost:4000/orders",
-   { headers: { Accept: "application/json" } })
+    { headers: { Accept: "application/json" } })
     setItemCount(cartItems.length)
-    //setConvertPrice(response.data);
-    //const result = parseFloat(convertPrice);
-    //console.log(response.data);
+    convertPrice = cartItems.map(({ price }) => parseFloat(price)).reduce((a, b) => a + b, 0);
+    setConvertPrice(convertPrice)
+    totalPrice = convertPrice.toFixed(2);
+    setTotalPrice(totalPrice)
 }, [])
 
-async function addToCart() {
-  if (cartItems.length === 0) {
-    console.log("No items in the cart");
-    return (
-      setEmptyMsg("Oops looks like your cart is empty, please add items before checking out!")
-    );
-  }
-  const testOrderTitles = cartItems.map(({ title }) => title).join(', ');
-  const testOrderDescription = cartItems.map(({ description }) => description).join(', ');
-  const testOrderPrice = cartItems.map(({ price }) => price).join(', ');
-  const testOrderQuantity = cartItems.map(({ quantity }) => quantity).join(', ');
+//create a new order in backend
+  async function addToCart(e) {
+    e.preventDefault();
+    if (cartItems.length === 0) {
+      console.log("No items in the cart");
+      return (
+        setEmptyMsg("Oops looks like your cart is empty, please add items before checking out!")
+      );
+    }
+    const newOrderTitles = cartItems.map(({ title }) => title).join(', ');
+    const newOrderDescription = cartItems.map(({ description }) => description).join(', ');
+    const newOrderPrice = cartItems.map(({ price }) => price).join(', ');
+    
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/orders",
+          { title: newOrderTitles, description: newOrderDescription, price: newOrderPrice, quantity: itemCount, email_address: userEmail},
+          { headers: { Accept: "application/json" } }
+      );
 
-  try {
-    const response = await axios.post(
-      "http://localhost:4000/orders",
-      { title: testOrderTitles, description: testOrderDescription, price: testOrderPrice, quantity: testOrderQuantity, emailAddress: userEmail},
-      { headers: { Accept: "application/json" } }
-    );
-
-    // Update cart state
-    setCartItems([]);
-    console.log("Order created:", response.data);
-  } catch (error) {
-    console.error(error);
+      // Update cart state
+      setCartItems([]);
+      console.log("Order created:", response.data);
+    } catch (error) {
+      console.error(error);
+    }
   }
-}
 
   //add or remove products functionality
   const handleQuantityChange = (index, quantityChange) => {
@@ -58,17 +61,15 @@ async function addToCart() {
   };
   
   //Checkout Details
-
   const { register, handleSubmit, formState: { errors } } = useForm();
-    const [formSubmitted, setFormSubmitted] = useState(false);
-    const [userEmail, setUserEmail] = useState("");
-    const [userfName, setUserFName] = useState("");
-    
-    const onSubmit = (data) => {
-        setFormSubmitted(true);
-        setUserEmail(data.email);
-        setUserFName(data.name);
-    };
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [userfName, setUserFName] = useState("");
+  const onSubmit = (data) => {
+    setFormSubmitted(true);
+    setUserEmail(data.email);
+    setUserFName(data.name);
+  };
 
   return (
     <div className="container-fluid">
@@ -80,30 +81,21 @@ async function addToCart() {
               {cartItems.map((item, index) => (
               <div className="row" key={index}>
                 <table>
+                  <thead>
                   <tr>
                     <th className="col-sm-4">Product:</th><th className="col-sm-6">Description:</th><th className="col-sm-2">Price:</th>
                   </tr>
+                  </thead>
                   <tbody>
                     <tr>
-                      <td className="col-sm-4">{item.title}</td><td className="col-sm-6">{item.description}</td><td className="col-sm-2">€ {item.price}</td>
-                  </tr>
+                      <td className="col-sm-3">{item.title}</td><td className="col-sm-4">{item.description}</td><td className="col-sm-2">€ {item.price}</td>
+                      <div className="quantity-control">
+                      <td className="col-sm-1"><button className="btn btn-outline-secondary btn-sm" onClick={() => handleQuantityChange(index, -1)}>-</button></td><td className="col-sm-1"><p className="item-quantity">{item.quantity}</p></td><td className="col-sm-1"><button className="btn btn-outline-secondary btn-sm" onClick={() => handleQuantityChange(index, 1)}
+                      >+</button></td>
+                    </div>
+                    </tr>
                   </tbody>
                 </table>
-                <div className="quantity-control">
-                  <button
-                    className="quantity-btn"
-                    onClick={() => handleQuantityChange(index, -1)}
-                  >
-                    -
-                  </button>
-                  <p className="item-quantity">{item.quantity}</p>
-                  <button
-                    className="quantity-btn"
-                    onClick={() => handleQuantityChange(index, 1)}
-                  >
-                    +
-                  </button>
-                </div>
               </div>
               ))}
             </div>
@@ -118,7 +110,7 @@ async function addToCart() {
             <p>PLEASE REVIEW YOUR ORDER BELOW THEN CHECKOUT</p>
             <div className="card-body">        
               <div>
-                <p className="cart">{itemCount} Item(s)<br/><br/>Total to pay:</p>
+                <p className="cart">Number of Item(s) in cart: {itemCount}<br/><br/>Total to pay: € {totalPrice}</p>
 
               </div>
             </div>

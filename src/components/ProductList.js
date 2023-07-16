@@ -27,12 +27,14 @@ function ProductList({ cartItems, setCartItems  }) {
       };
       
     return (
+        <div>           
+            <div className="row banner">
+                <h3>SHOP HERE</h3>
+            </div>
             <div className="container-fluid">
-                <div className="row sub-header">
-                    <div className="col-sm-1 header">
-                        <h6>Filter here</h6>
-                    </div>
-                    <div className="col-sm-11">
+                <div className="row">
+                    <div className="col-sm-3 ">
+                        <h6>Filter by dietary requirement here</h6>
                         <select
                         value={categoryFilter}
                         className="btn btn-outline-secondary btn-sm"
@@ -44,7 +46,21 @@ function ProductList({ cartItems, setCartItems  }) {
                             <option value="false">Diary Free</option>
                         </select>
                     </div>
-                </div>
+                    <div className="col-sm-9 ">
+                            <h6>Filter by age group here</h6>
+
+                            <select
+                            value={categoryFilter}
+                            className="btn btn-outline-secondary btn-sm"
+                            type="dropdown"
+                            onChange={handleCategoryFilterChange}
+                            >
+                                <option value="">All</option>
+                                <option value="true">Gluten Free</option>
+                                <option value="false">Diary Free</option>
+                            </select>
+                        </div>
+                    </div>
                 <div className="row">
                     {productList.map(function (product, index) {
                     if (
@@ -74,7 +90,7 @@ function ProductList({ cartItems, setCartItems  }) {
                 } else if (
                     categoryFilter === 'false' &&
                     product.diary_free
-                  ) {
+                    ) {
                     return (
                         <div className="col-sm-4 mb-3 mb-sm-5" key={index}>
                             <div className="card h-100">
@@ -125,6 +141,7 @@ function ProductList({ cartItems, setCartItems  }) {
                     })}
                 </div>
             </div>
+        </div>
     );
   }
 

@@ -17,13 +17,11 @@ body {
     color: black 
 }
 
-.logo {
-    height: 311px;
-    width: 256.5px;
-}
-
-.logo-text {
-   text-align: left;
+.banner {
+    /*background-image: linear-gradient(#EEFAF5, white);*/
+    background-color: #EEFAF5;
+    text-align: center;
+    padding-top:10px;
 }
 
 .fruit-veg-img {

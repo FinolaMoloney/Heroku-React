@@ -21,10 +21,10 @@ function GlutenFreeProducts() {
 
     return (
         <div>
-            <div className="header">
+            <div className="row banner rangeHeader">
                 <h4>Our Coeliec Range</h4>
                 <p>At Nourish and Sprout our goal is to ensure all our customers are looked after. We have worked hard to curate a range of products that considers all dietary requirements without compromising on taste. Below you can find the list of products that are gluten free and therefore suitable for Coeliecs.</p>
-                <button className="btn btn-outline-secondary btn-sm" onClick={handleShopHereClick}>Shop here</button>
+                <button className="btn btn-outline-secondary btn-sm col-sm-1" onClick={handleShopHereClick}>Shop here</button>
             </div>
             <div className="container-fluid">
                 <div className="row sub-header">

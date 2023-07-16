@@ -8,6 +8,8 @@ import Contact from './views/Contact';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Cart from './components/Cart';
+import Login from './components/Login';
+import Signup from './components/Signup';
 import GlutenFreeProducts from './components/GlutenFreeProducts';
 import DiaryFreeProducts from './components/DiaryFreeProducts';
 
@@ -26,6 +28,8 @@ function App() {
           <Route path="/cart" element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
           <Route path="/gluten-free" element={<GlutenFreeProducts />} />
           <Route path="/diary-free" element={<DiaryFreeProducts />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
         <Footer />
       </div>

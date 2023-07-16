@@ -1,8 +1,16 @@
 .navbar {
     background-color: rgb(255, 192, 203);
  }
+ .logoImage {
+   background-color: rgb(255, 192, 203);
+ }
+
+ .logoTop{
+
+   background-color: rgb(245, 165, 178);
+ }
  .navbar-brand {
-    padding-left: 20px;   
+    padding-left: 40px;  
  }
  .nav-item {
     align-items: center;
@@ -14,3 +22,14 @@
    height: 35.6px;
    width: 50.8px;
  }
+
+ .headerBanner {
+   background-image: url('../images/home/NourishAndSproutBackground.jpg');
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   height: 100px;
+   justify-content:center;
+   align-items: center;
+   display:flex;
+}

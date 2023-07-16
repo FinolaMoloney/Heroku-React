@@ -17,21 +17,19 @@ function Contact() {
     };
   
       return (
-        <div>
-          <header className="headerContact">
-            <h1 className="header-title">Contact Us</h1>
-          </header>
+        <div className="background">
           <div className="container">
             <div className="contact-form">
-              <div className="row">
-                <p>If you would like to get in touch, please send us a message below. We would love to hear from you!</p>
-              </div>
-                {formSubmitted ? (
-                  <div className="row">
-                    <p>Thanks for getting in touch {userfName}, we will get back to you on {userEmail} shortly!</p>
-                  </div>
-                ) : (
+              <h3>CONTACT US</h3>
+              {formSubmitted ? (
+                <div className="row">
+                  <p>Thanks for getting in touch {userfName}, we will get back to you on {userEmail} shortly!</p>
+                </div>
+              ) : (
                 <form className="contactFormBorder" onSubmit={handleSubmit(onSubmit)}>
+                  <div className="row">
+                    <p>If you would like to get in touch, please send us a message below. We would love to hear from you!</p>
+                  </div>
                   <div>
                     <input 
                       type="text" 

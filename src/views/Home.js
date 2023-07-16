@@ -8,7 +8,11 @@ import NourishAndSproutFreshVeg from '../images/home/NourishAndSproutFreshVeg.jp
 
 function Home(){
     return(
-        <div className="container-stretch">
+        <div>
+            <div className="row banner">
+                <img className="logo col-sm-1" src={NourishAndSproutLogo} alt="NourishAndSproutLogo" />
+                <h1 className="logoText col-sm-11">Welcome to Nourish and Sprout!</h1>
+            </div>
             <div className="row">
                 <Carousel>
                     <Carousel.Item>
@@ -34,10 +38,6 @@ function Home(){
                         </Carousel.Caption>
                     </Carousel.Item>
                 </Carousel>
-            </div>
-            <div className="row">
-                <img className="logo col-sm-5 col-lg-3" src={NourishAndSproutLogo} alt="NourishAndSproutLogo" />
-                <h1 className="logo-text col-sm-7 col-lg-9">Welcome to Nourish and Sprout!</h1>
             </div>
             <div className="row card-links">
                 <div className="card-body col-sm-3 col-lg-3">
