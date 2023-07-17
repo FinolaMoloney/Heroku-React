@@ -56,6 +56,9 @@ function Signup() {
   
       return (
         <div className="background">
+            <div className="row banner">
+                <h3>SIGN UP HERE</h3>
+            </div> 
             <div className="container">
                 <div className="row">
                     <div className="col-sm-6">

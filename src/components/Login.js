@@ -33,6 +33,9 @@ function Login() {
 
   return (
     <div className="background">
+      <div className="row banner">
+        <h3>LOG IN HERE</h3>
+      </div>      
         <div className="container">
             <div className="row">
                 <div className="col-sm-6">

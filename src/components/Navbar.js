@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import NourishAndSproutBasket from '../images/home/NourishAndSproutBasket.jpg';
-import NourishAndSproutLogo from '../images/home/NourishAndSproutLogo.jpg';
+import NourishAndSproutSmallLogo from '../images/home/NourishAndSproutSmallLogo.jpg';
 
 function Navbar() {
     return (
         <div>
             <nav className="navbar navbar-expand-sm">
                 <div className="d-flex logoTop" >
-                    <img className="img-fluid" src={NourishAndSproutLogo} width="100" height="100" alt="NourishAndSproutLogo" />
+                    <img className="img-fluid" src={NourishAndSproutSmallLogo} width="100" height="100" alt="NourishAndSproutLogo" />
                 </div>
                 <a className="navbar-brand" href="/">Nourish and Sprout</a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

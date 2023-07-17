@@ -72,7 +72,11 @@ function Cart({ cartItems, setCartItems }) {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="background">
+      <div className="row banner">
+        <h3>YOUR CART</h3>
+      </div> 
+      <div className="container-fluid">
       <div className="row">
         <div className="col-sm-8 cart-box">
           <div className="card">
@@ -221,6 +225,7 @@ function Cart({ cartItems, setCartItems }) {
               </div>
             </div>
           </div>
+      </div>
       </div>
       </div>
     </div>

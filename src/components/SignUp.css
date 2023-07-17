@@ -1,6 +1,6 @@
 .background {
-
     background-color: #EEFAF5;
+    background-image: linear-gradient(#EEFAF5, white);
 }
 
 .container {
@@ -9,5 +9,9 @@
 
 .contactFormBorder {
     background-color: white;
+}
 
+.smallLogo {
+    height: 90%;
+    width: 90%;
 }

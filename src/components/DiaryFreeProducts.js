@@ -20,9 +20,9 @@ function DiaryFreeProducts() {
     };
       
     return (
-        <div>
+        <div className="background">
             <div className="row banner rangeHeader">
-                <h4>Our Diary Free Range</h4>
+                <h3>Our Diary Free Range</h3>
                 <p>At Nourish and Sprout our goal is to ensure all our customers are looked after. We have worked hard to curate a range of products that considers all dietary requirements without compromising on taste. Below you can find the list of products that are diary free.</p>
                 <button className="btn btn-outline-secondary btn-sm col-sm-1" onClick={handleShopHereClick}>Shop here</button>
             </div>

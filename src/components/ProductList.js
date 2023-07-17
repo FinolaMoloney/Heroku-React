@@ -27,7 +27,7 @@ function ProductList({ cartItems, setCartItems  }) {
       };
       
     return (
-        <div>           
+        <div className="background">           
             <div className="row banner">
                 <h3>SHOP HERE</h3>
             </div>

@@ -18,9 +18,11 @@ function Contact() {
   
       return (
         <div className="background">
+          <div className="row banner">
+            <h3>CONTACT US</h3>
+          </div>
           <div className="container">
             <div className="contact-form">
-              <h3>CONTACT US</h3>
               {formSubmitted ? (
                 <div className="row">
                   <p>Thanks for getting in touch {userfName}, we will get back to you on {userEmail} shortly!</p>
