@@ -12,6 +12,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import GlutenFreeProducts from './components/GlutenFreeProducts';
 import DiaryFreeProducts from './components/DiaryFreeProducts';
+import EditAccountInfo from './components/EditAccountInfo';
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -30,6 +31,7 @@ function App() {
           <Route path="/diary-free" element={<DiaryFreeProducts />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/login/edit" element={<EditAccountInfo />} />
         </Routes>
         <Footer />
       </div>
