@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import './SignUp.css';
+import Product from './Product';
 import NourishAndSproutLogo from '../images/home/NourishAndSproutLogo.jpg';
 
 function Login() {
@@ -19,6 +20,15 @@ function Login() {
   const [userPassword, setUserPassword] = useState("");
   const [editMsg, setEditMsg] = useState([]);
   const [editMode, setEditMode] = useState(false);
+  const [viewOrdersMode, setViewOrdersMode] = useState(false);
+  const [loggedOut, setLoggedOut] = useState(false);
+  const [orderHistory, setOrderHistory] = useState([]);
+  const [orderEmail, setOrderEmail] = useState('');
+  const [order, setOrder] = useState('');
+  const navigate = useNavigate();
+  const [orderExists, setOrderExists] = useState(false);
+  const [product, setProduct] = useState('')
+  const [title, setTitle] = useState([])
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -41,7 +51,7 @@ function Login() {
       console.error('Error occurred:', error);
     }
   } 
-
+  
     function handleFName(e) {
         e.preventDefault();
         setUserFName(e.target.value)
@@ -62,7 +72,8 @@ function Login() {
       e.preventDefault();
       setUserPassword(e.target.checked)
     }
-      
+
+
   async function handleupdateInfo(e) {
     e.preventDefault();
     try {
@@ -71,6 +82,7 @@ function Login() {
       first_name: userfName,
       last_name: userlName,
       address: userAddress,
+      email_address: userEmail,
       phone_number: userPhone,
       password: userPassword
     },
@@ -80,19 +92,61 @@ function Login() {
               'Accept': 'application/json',
               'Content-Type': 'application/json' 
             }, })
-    var data = response.data
-    setEditMsg("You have successfully updated your details")
+    const updatedCustomer = response.data;
+    setEditMsg("You have successfully updated your details");
+    setCustomerData(updatedCustomer);
+    setEditMode(false);
   } catch(e) {
     setEditMsg(e.response.error)
   }
   }
-  function backtoInfo() {
+  function handleBacktoInfo() {
     setEditMode(false);
   }
-  function handleEditInfo() {
-    setEditMode(true);
-  }
 
+  function handleLogout() {
+    setLoggedOut(true);
+    setLoggedIn(false);
+    setCustomerData(null);
+    navigate('/login');
+  }
+  useEffect(() => {
+    async function fetchOrderEmail() {
+      try {
+        const response = await axios.get(`http://127.0.0.1:4000/customers/${user}`, {
+          headers: { Accept: 'application/json' },
+        });
+        setOrderEmail(response.data.email_address);
+      } catch (error) {
+        console.error('Error occurred:', error);
+      }
+    }
+    fetchOrderEmail();
+  }, [user]);
+  
+  const handleOrderHistoryCheck = async (data) => {
+    try {
+      const response = await axios.get('http://127.0.0.1:4000/orders', {
+        headers: { Accept: 'application/json' },
+      });
+      const orders = response.data;
+      const orderExists = orders.some(order => order.email === data.email);       
+      setOrderExists(orderExists);
+  
+      if (!orderExists) {
+        // Email has no previous orders
+        console.log('No previous orders');
+        
+      } else {
+        // Email has previous orders
+        console.log('Previous orders found');
+        const userOrders = orders.filter(order => order.email === data.email);
+        setOrderHistory(userOrders);
+      }
+    } catch (error) {
+      console.error('Error occurred:', error);
+    }
+  };
 
   return (
     <div className="background">
@@ -130,9 +184,9 @@ function Login() {
                         <div className="col-sm-12">
                           <h2>Welcome back, {customerData.first_name}!<br/><br/></h2>
                           {!editMode ? (
-                  <>
-                          <button className="btn btn-outline-secondary btn-sm" type="submit" onClick={handleEditInfo}>Update your information here</button>
-                          <Link to='/products'><p>View your previous orders here</p></Link>
+                          <>
+                          <button className="btn btn-outline-secondary btn-sm" onClick={() => setEditMode(true)}>Update your information here</button>
+                          <button className="btn btn-outline-secondary btn-sm" type="submit" onClick={handleOrderHistoryCheck} >View your previous orders here</button>
                           <p>Profile information:</p>
                           <ul>
                               <li>First Name: {customerData.first_name}</li>
@@ -141,6 +195,19 @@ function Login() {
                               <li>Phone Number: {customerData.phone_number}</li>
                               <li>Email: {customerData.email_address}</li>
                           </ul>
+                          <button className="btn btn-outline-secondary btn-sm"onClick={handleLogout}>Logout</button>
+                          {orderHistory
+                            .filter(order => order.email_address === customerData.email_address)
+                            .map(order => (
+                              <div key={order.id}>
+                                <h4>Order ID: {order.id}</h4>
+                                <p>Title: {order.title}</p>
+                                <p>Description: {order.description}</p>
+                                <p>Price: {order.price}</p>
+                                <p>Email Address: {order.email_address}</p>
+                                <hr />
+                              </div>
+                            ))}
                           </>
                           ):(
                           <div className="row">
@@ -152,13 +219,12 @@ function Login() {
                               <input value={userPhone} type="text" className="form-control" placeholder="Phone Number" onChange={handlePhone}/><br/>
                               <input value={userPassword} type="text" className="form-control" placeholder="Password" onChange={handlePassword}/><br/>
                               <button className="btn btn-outline-secondary btn-sm" onClick={handleupdateInfo}>Update</button>
-                             <button className="btn btn-outline-secondary btn-sm" onClick={backtoInfo}>Back to your account</button>
+                             <button className="btn btn-outline-secondary btn-sm" onClick={handleBacktoInfo}>Back to your account</button>
                               <p>{editMsg}</p>
                             </form>
-                              </div>
+                          </div>
                           )}
                       </div>
-
                     )}
                 </div>
                 <div className="col-sm-6">

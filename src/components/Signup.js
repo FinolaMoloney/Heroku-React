@@ -13,6 +13,7 @@ function Signup() {
     const [userPhone, setPhone] = useState();
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
+    const [emailExists, setEmailExists] = useState(false);
   
     useEffect(() => {
         async function createUser() {
@@ -29,7 +30,6 @@ function Signup() {
               },
               { headers: { Accept: "application/json" } }
             );
-            console.log("Customer created:", response.data);
           } catch (error) {
             console.error(error);
           }
@@ -43,8 +43,20 @@ function Signup() {
       const password = watch('password');
       const confirmPassword = watch('confirmPassword');
     
-      const onSubmit = (data, e) => {
+      const onSubmit = async (data, e) => {
         e.preventDefault();
+        // Check if the email is already in use
+        try {
+        const response = await axios.get(
+          'http://localhost:4000/customers',
+          { headers: { Accept: 'application/json' }}
+        );
+        const customers = response.data;
+        const emailExists = customers.some(customer => customer.email_address === data.email);
+        setEmailExists(emailExists);
+        
+        if (!emailExists) {
+        // Email is unique, then create user
         setFormSubmitted(true);
         setUserFName(data.name);
         setUserLName(data.lastName);
@@ -52,7 +64,11 @@ function Signup() {
         setPhone(data.phoneNumber);
         setUserEmail(data.email);
         setUserPassword(data.password);
-      };
+      }
+    } catch (error) {
+        console.error(error);
+      }
+    };
   
       return (
         <div className="background">
@@ -136,6 +152,7 @@ function Signup() {
                                         })}
                                     />
                                     {errors.confirmPassword && <small>{errors.confirmPassword.message}</small>}
+                                    {emailExists && <p>Email address is already in use.</p>}
                                     </div>
                                     <br/>
                                 <button className="btn btn-outline-secondary btn-sm" type="submit">Submit</button>

@@ -4,10 +4,12 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './Cart.css';
 import '../components/Contact.css';
+import './Login';
 
-function Cart({ cartItems, setCartItems }) {
+function Cart({ cartItems, setCartItems, user}) {
   const [itemCount, setItemCount] = useState();
   const [emptyMsg, setEmptyMsg] = useState('');
+  const [confirmationMsg, setConfirmationMsg] = useState('');
   let [convertPrice, setConvertPrice] = useState([]);
   let [totalPrice, setTotalPrice] = useState();
   
@@ -45,7 +47,9 @@ function Cart({ cartItems, setCartItems }) {
 
       // Update cart state
       setCartItems([]);
-      console.log("Order created:", response.data);
+      return (
+        setConfirmationMsg(`Thanks for your order ${userfName}, your delivery is on its way!`)
+      );
     } catch (error) {
       console.error(error);
     }
@@ -107,6 +111,7 @@ function Cart({ cartItems, setCartItems }) {
           <br/>
           <Link to="/products" className="btn btn-outline-secondary btn-sm">Continue Shopping</Link>
           <p>{emptyMsg}</p>
+          <p>{confirmationMsg}</p>
         </div>
         <div className="col-sm-4">
           <div className="card">
@@ -128,15 +133,15 @@ function Cart({ cartItems, setCartItems }) {
       <div className="col-sm-4 ">
           <div className="card">
             <h6>CHECKOUT</h6>
-            <p>Please fill in all fields below before submitting.</p>
             <div className="contact-form">
               <div className="card-body">     
                 {formSubmitted ? (
                   <div>
-                    <p>Thanks for your order {userfName}, your delivery is on its way!</p>
+                    <button className="btn btn-outline-secondary btn-sm" type="submit" onClick={addToCart}>Pay Now</button>
                   </div>
                 ) : (
                 <form onSubmit={handleSubmit(onSubmit)}>
+                  <p className="faq-card">Please fill in all fields below before submitting.</p>
                   <h6>PERSONAL DETAILS</h6>
                   <div>
                     <input 
@@ -219,7 +224,7 @@ function Cart({ cartItems, setCartItems }) {
                       {errors.cvv && (<small>{errors.cvv.message}</small>)}
                   </div>
                   <br></br>
-                  <button className="btn btn-outline-secondary btn-sm" type="submit" onClick={addToCart}>Pay Now</button>
+                  <button className="btn btn-outline-secondary btn-sm" type="submit">Confirm Details</button>
                 </form>
                 )}
               </div>
