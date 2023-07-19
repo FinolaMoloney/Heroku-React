@@ -15,3 +15,12 @@
     height: 90%;
     width: 90%;
 }
+
+.logout-btn {
+    float:right;
+}
+
+.loginPg-btn {
+    display:flex;
+    justify-content: space-between;
+}

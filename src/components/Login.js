@@ -182,11 +182,10 @@ function Login() {
                         </Form>
                     ) : (
                         <div className="col-sm-12">
-                          <h2>Welcome back, {customerData.first_name}!<br/><br/></h2>
+                          <button className="btn btn-outline-secondary btn-sm logout-btn"onClick={handleLogout}>Logout</button>
+                          <h2>Welcome back, {customerData.first_name}!</h2><br/><br/>
                           {!editMode ? (
                           <>
-                          <button className="btn btn-outline-secondary btn-sm" onClick={() => setEditMode(true)}>Update your information here</button>
-                          <button className="btn btn-outline-secondary btn-sm" type="submit" onClick={handleOrderHistoryCheck} >View your previous orders here</button>
                           <p>Profile information:</p>
                           <ul>
                               <li>First Name: {customerData.first_name}</li>
@@ -195,7 +194,10 @@ function Login() {
                               <li>Phone Number: {customerData.phone_number}</li>
                               <li>Email: {customerData.email_address}</li>
                           </ul>
-                          <button className="btn btn-outline-secondary btn-sm"onClick={handleLogout}>Logout</button>
+                          <div className="row loginPg-btn">
+                          <button className="btn btn-outline-secondary btn-sm col-sm-5 loginPg-btn" onClick={() => setEditMode(true)}>Update your information here</button>
+                          <button className="btn btn-outline-secondary btn-sm col-sm-5 loginPg-btn" type="submit" onClick={handleOrderHistoryCheck} >View your previous orders here</button>
+                          </div>
                           {orderHistory
                             .filter(order => order.email_address === customerData.email_address)
                             .map(order => (
