@@ -7,22 +7,32 @@ import '../components/Contact.css';
 import './Login';
 
 function Cart({ cartItems, setCartItems, user}) {
-  const [itemCount, setItemCount] = useState();
+  const [itemCount, setItemCount] = useState(0);
   const [emptyMsg, setEmptyMsg] = useState('');
   const [confirmationMsg, setConfirmationMsg] = useState('');
   let [convertPrice, setConvertPrice] = useState([]);
   let [totalPrice, setTotalPrice] = useState();
   
  //Return cart items 
-  useEffect(() =>
-  async function () {
-    const response = await axios.get("http://localhost:4000/orders",
-    { headers: { Accept: "application/json" } })
+  useEffect(() => {
+  async function fetchData () {
+    const response = await axios.get("http://localhost:4000/orders", {
+      headers: { Accept: "application/json" },
+    });
     setItemCount(cartItems.length)
-    convertPrice = cartItems.map(({ price }) => parseFloat(price)).reduce((a, b) => a + b, 0);
-    setConvertPrice(convertPrice)
-    totalPrice = convertPrice.toFixed(2);
-    setTotalPrice(totalPrice)
+    const convertedPrice = cartItems.map(({ price }) => parseFloat(price)).reduce((a, b) => a + b, 0);
+    setConvertPrice(convertedPrice);
+
+    const formattedTotalPrice = convertedPrice.toFixed(2);
+    setTotalPrice(formattedTotalPrice);
+
+    const updatedCartItems = cartItems.map((item) => ({
+      ...item,
+      quantity: item.quantity || 1,
+    }));
+    setCartItems(updatedCartItems);
+  }
+    fetchData();
 }, [])
 
 //create a new order in backend
@@ -34,6 +44,12 @@ function Cart({ cartItems, setCartItems, user}) {
         setEmptyMsg("Oops looks like your cart is empty, please add items before checking out!")
       );
     }
+    const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+    if (totalQuantity === 0) {
+      console.log("Cart is empty");
+      return setEmptyMsg("Oops looks like your cart is empty, please add items before checking out!");
+    }
+    
     const newOrderTitles = cartItems.map(({ title }) => title).join(', ');
     const newOrderDescription = cartItems.map(({ description }) => description).join(', ');
     const newOrderPrice = cartItems.map(({ price }) => price).join(', ');
@@ -41,10 +57,15 @@ function Cart({ cartItems, setCartItems, user}) {
     try {
       const response = await axios.post(
         "http://localhost:4000/orders",
-          { title: newOrderTitles, description: newOrderDescription, price: newOrderPrice, quantity: itemCount, email_address: userEmail},
-          { headers: { Accept: "application/json" } }
+        {
+          title: newOrderTitles,
+          description: newOrderDescription,
+          price: newOrderPrice,
+          quantity: totalQuantity,
+          email_address: userEmail,
+        },
+        { headers: { Accept: "application/json" } }
       );
-
       // Update cart state
       setCartItems([]);
       return (
@@ -62,6 +83,12 @@ function Cart({ cartItems, setCartItems, user}) {
     updatedItem.quantity += quantityChange;
     updatedCartItems[index] = updatedItem;
     setCartItems(updatedCartItems);
+
+    const totalQuantity = updatedCartItems.reduce((total, item) => total + item.quantity, 0);
+    setItemCount(totalQuantity);
+
+    const newTotalPrice = updatedCartItems.reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0);
+  setTotalPrice(newTotalPrice.toFixed(2));
   };
   
   //Checkout Details

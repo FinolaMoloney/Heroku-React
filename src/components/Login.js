@@ -24,11 +24,8 @@ function Login() {
   const [loggedOut, setLoggedOut] = useState(false);
   const [orderHistory, setOrderHistory] = useState([]);
   const [orderEmail, setOrderEmail] = useState('');
-  const [order, setOrder] = useState('');
   const navigate = useNavigate();
   const [orderExists, setOrderExists] = useState(false);
-  const [product, setProduct] = useState('')
-  const [title, setTitle] = useState([])
 
   async function handleSubmit(e) {
     e.preventDefault();
