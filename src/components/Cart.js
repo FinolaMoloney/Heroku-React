@@ -88,7 +88,7 @@ function Cart({ cartItems, setCartItems, user}) {
     setItemCount(totalQuantity);
 
     const newTotalPrice = updatedCartItems.reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0);
-  setTotalPrice(newTotalPrice.toFixed(2));
+    setTotalPrice(newTotalPrice.toFixed(2));
   };
   
   //Checkout Details
@@ -239,15 +239,23 @@ function Cart({ cartItems, setCartItems, user}) {
                       type="text" 
                       className="form-control"
                       placeholder="MM/YY"
-                      {...register("mmyy", { required: "Enter the expiry date of the card in the MM/YY format", maxLength: 5 })} />
+                      {...register("mmyy", { required: "Enter the expiry date of the card in the MM/YY format", pattern: {
+                        value: /^\d{2}\/\d{2}$/,
+                        message: "You must enter 5 characters in the format MM/YY"
+                      }
+                      })} />
                       {errors.mmyy && (<small>{errors.mmyy.message}</small>)}
-                  <div>
                   </div>
+                  <div>
                     <input 
-                      type="text" 
+                      type="number" 
                       className="form-control"
                       placeholder="CVV"
-                      {...register("cvv", { required: "Enter the 3 digit security code on the card", maxLength: 3 })} />
+                      {...register("cvv", { required: "Enter the 3 digit security code on the card", 
+                      pattern: {
+                        value: /^\d{3}$/,
+                        message: "You must enter 3 numbers for the CVV" } 
+                      })} />
                       {errors.cvv && (<small>{errors.cvv.message}</small>)}
                   </div>
                   <br></br>
