@@ -11,8 +11,9 @@ function Cart({ cartItems, setCartItems, user}) {
   const [emptyMsg, setEmptyMsg] = useState('');
   const [confirmationMsg, setConfirmationMsg] = useState('');
   let [convertPrice, setConvertPrice] = useState([]);
-  let [totalPrice, setTotalPrice] = useState();
-  
+  let [totalPrice, setTotalPrice] = useState(0);
+  const [grossCost, setGrossCost] = useState([])
+
  //Return cart items 
   useEffect(() => {
   async function fetchData () {
@@ -31,6 +32,8 @@ function Cart({ cartItems, setCartItems, user}) {
       quantity: item.quantity || 1,
     }));
     setCartItems(updatedCartItems);
+    const newOrderPrice = updatedCartItems.map((item) => item.price * item.quantity);
+      setGrossCost(newOrderPrice);
   }
     fetchData();
 }, [])
@@ -52,15 +55,14 @@ function Cart({ cartItems, setCartItems, user}) {
     
     const newOrderTitles = cartItems.map(({ title }) => title).join(', ');
     const newOrderDescription = cartItems.map(({ description }) => description).join(', ');
-    const newOrderPrice = cartItems.map(({ price }) => price).join(', ');
-    
+   
     try {
       const response = await axios.post(
         "http://localhost:4000/orders",
         {
           title: newOrderTitles,
           description: newOrderDescription,
-          price: newOrderPrice,
+          price: totalPrice,
           quantity: totalQuantity,
           email_address: userEmail,
         },
@@ -81,7 +83,12 @@ function Cart({ cartItems, setCartItems, user}) {
     const updatedCartItems = [...cartItems];
     const updatedItem = { ...updatedCartItems[index] };
     updatedItem.quantity += quantityChange;
+    
+    if (updatedItem.quantity < 0) {
+      updatedItem.quantity = 0;
+    }
     updatedCartItems[index] = updatedItem;
+
     setCartItems(updatedCartItems);
 
     const totalQuantity = updatedCartItems.reduce((total, item) => total + item.quantity, 0);
@@ -89,8 +96,15 @@ function Cart({ cartItems, setCartItems, user}) {
 
     const newTotalPrice = updatedCartItems.reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0);
     setTotalPrice(newTotalPrice.toFixed(2));
-  };
-  
+
+    const newOrderPrice = updatedCartItems.map((item) => item.price * item.quantity);
+    setGrossCost(newOrderPrice);
+};
+   
+   const sumGrossCost = grossCost.reduce((total, price) => total + parseFloat(price), 0).toFixed(2);
+
+  console.log(sumGrossCost)
+
   //Checkout Details
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -146,7 +160,7 @@ function Cart({ cartItems, setCartItems, user}) {
             <p>PLEASE REVIEW YOUR ORDER BELOW THEN CHECKOUT</p>
             <div className="card-body">        
               <div>
-                <p className="cart">Number of Item(s) in cart: {itemCount}<br/><br/>Total to pay: € {totalPrice}</p>
+                <p className="cart">Number of Item(s) in cart: {itemCount}<br/><br/>Total to pay: € {sumGrossCost}</p>
 
               </div>
             </div>
