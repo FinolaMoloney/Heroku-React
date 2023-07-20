@@ -12,7 +12,8 @@ function Cart({ cartItems, setCartItems, user}) {
   const [confirmationMsg, setConfirmationMsg] = useState('');
   let [convertPrice, setConvertPrice] = useState([]);
   let [totalPrice, setTotalPrice] = useState(0);
-  const [grossCost, setGrossCost] = useState([])
+  const [grossCost, setGrossCost] = useState([]);
+  const [totalItems, setTotalItems] = useState([])
 
  //Return cart items 
   useEffect(() => {
@@ -32,6 +33,16 @@ function Cart({ cartItems, setCartItems, user}) {
       quantity: item.quantity || 1,
     }));
     setCartItems(updatedCartItems);
+    const totalQuantity = updatedCartItems.reduce((total, item) => total + item.quantity, 0);
+  setItemCount(totalQuantity);
+
+  // Set the initial state for totalItems
+  const newTotalQuantity = updatedCartItems.map((item) => item.quantity);
+  setTotalItems(newTotalQuantity);
+
+  // Calculate the total price and gross cost for each item
+  const newTotalPrice = updatedCartItems.reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0);
+
     const newOrderPrice = updatedCartItems.map((item) => item.price * item.quantity);
       setGrossCost(newOrderPrice);
   }
@@ -94,6 +105,9 @@ function Cart({ cartItems, setCartItems, user}) {
     const totalQuantity = updatedCartItems.reduce((total, item) => total + item.quantity, 0);
     setItemCount(totalQuantity);
 
+    const newTotalQuantity = updatedCartItems.map((item) => item.quantity, 0);
+    setTotalItems(newTotalQuantity);
+
     const newTotalPrice = updatedCartItems.reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0);
     setTotalPrice(newTotalPrice.toFixed(2));
 
@@ -101,9 +115,9 @@ function Cart({ cartItems, setCartItems, user}) {
     setGrossCost(newOrderPrice);
 };
    
-   const sumGrossCost = grossCost.reduce((total, price) => total + parseFloat(price), 0).toFixed(2);
-
-  console.log(sumGrossCost)
+  const sumGrossCost = grossCost.reduce((total, price) => total + parseFloat(price), 0).toFixed(2);
+  const sumTotalItems = totalItems.reduce((total, quantity) => total + quantity, 0)
+  console.log(itemCount)
 
   //Checkout Details
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -160,7 +174,7 @@ function Cart({ cartItems, setCartItems, user}) {
             <p>PLEASE REVIEW YOUR ORDER BELOW THEN CHECKOUT</p>
             <div className="card-body">        
               <div>
-                <p className="cart">Number of Item(s) in cart: {itemCount}<br/><br/>Total to pay: € {sumGrossCost}</p>
+                <p className="cart">Number of Item(s) in cart: {sumTotalItems}<br/><br/>Total to pay: € {sumGrossCost}</p>
 
               </div>
             </div>
