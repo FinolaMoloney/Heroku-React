@@ -34,14 +34,14 @@ function Cart({ cartItems, setCartItems, user}) {
     }));
     setCartItems(updatedCartItems);
     const totalQuantity = updatedCartItems.reduce((total, item) => total + item.quantity, 0);
-  setItemCount(totalQuantity);
+    setItemCount(totalQuantity);
 
-  // Set the initial state for totalItems
-  const newTotalQuantity = updatedCartItems.map((item) => item.quantity);
-  setTotalItems(newTotalQuantity);
+    // Set the initial state for totalItems
+    const newTotalQuantity = updatedCartItems.map((item) => item.quantity);
+    setTotalItems(newTotalQuantity);
 
-  // Calculate the total price and gross cost for each item
-  const newTotalPrice = updatedCartItems.reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0);
+    // Calculate the total price and gross cost for each item
+    const newTotalPrice = updatedCartItems.reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0);
 
     const newOrderPrice = updatedCartItems.map((item) => item.price * item.quantity);
       setGrossCost(newOrderPrice);
@@ -146,12 +146,12 @@ function Cart({ cartItems, setCartItems, user}) {
                 <table>
                   <thead>
                   <tr>
-                    <th className="col-sm-4">Product:</th><th className="col-sm-6">Description:</th><th className="col-sm-2">Price:</th>
+                    <th className="col-sm-3">Product:</th><th className="col-sm-6">Description:</th><th className="col-sm-2">Price:</th><th className="col-sm-1">Quality:</th>
                   </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td className="col-sm-3">{item.title}</td><td className="col-sm-4">{item.description}</td><td className="col-sm-2">€ {item.price}</td>
+                      <td className="col-sm-3">{item.title}</td><td className="col-sm-6">{item.description}</td><td className="col-sm-2">€ {item.price}</td>
                       <div className="quantity-control">
                       <td className="col-sm-1"><button className="btn btn-outline-secondary btn-sm" onClick={() => handleQuantityChange(index, -1)}>-</button></td><td className="col-sm-1"><p className="item-quantity">{item.quantity}</p></td><td className="col-sm-1"><button className="btn btn-outline-secondary btn-sm" onClick={() => handleQuantityChange(index, 1)}
                       >+</button></td>

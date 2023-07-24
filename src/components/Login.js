@@ -59,15 +59,11 @@ function Login() {
     }
     function handleAddress(e) {
         e.preventDefault();
-        setAddress(e.target.checked)
+        setAddress(e.target.value)
     }
     function handlePhone(e) {
       e.preventDefault();
-      setPhone(e.target.checked)
-    }
-    function handlePassword(e) {
-      e.preventDefault();
-      setUserPassword(e.target.checked)
+      setPhone(e.target.value)
     }
 
 
@@ -215,8 +211,7 @@ function Login() {
                               <input value={userfName} type="text" className="form-control" placeholder="First Name" onChange={handleFName}/><br/>
                               <input value={userlName} type="text" className="form-control" placeholder="Last Name" onChange={handleLName}/><br/>
                               <input value={userAddress} type="text" className="form-control" placeholder="Address" onChange={handleAddress}/><br/>
-                              <input value={userPhone} type="text" className="form-control" placeholder="Phone Number" onChange={handlePhone}/><br/>
-                              <input value={userPassword} type="text" className="form-control" placeholder="Password" onChange={handlePassword}/><br/>
+                              <input value={userPhone} type="number" className="form-control" placeholder="Phone Number" onChange={handlePhone}/><br/>
                               <button className="btn btn-outline-secondary btn-sm" onClick={handleupdateInfo}>Update</button>
                              <button className="btn btn-outline-secondary btn-sm" onClick={handleBacktoInfo}>Back to your account</button>
                               <p>{editMsg}</p>
