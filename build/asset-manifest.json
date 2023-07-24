@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.617d5405.css",
+    "main.js": "/static/js/main.6bdef439.js",
+    "static/js/787.60adcf87.chunk.js": "/static/js/787.60adcf87.chunk.js",
+    "static/media/NourishAndSproutGlutenFreeImg.jpg": "/static/media/NourishAndSproutGlutenFreeImg.58b72d435cdce3f45979.jpg",
+    "static/media/NourishAndSproutHomeImage.jpg": "/static/media/NourishAndSproutHomeImage.b595efa3cddb03d009e5.jpg",
+    "static/media/NourishAndSproutFreshVeg.jpg": "/static/media/NourishAndSproutFreshVeg.caf097a43fb910567b48.jpg",
+    "static/media/NourishAndSproutBabySoupAndVeg.jpg": "/static/media/NourishAndSproutBabySoupAndVeg.8cd5e932d5a575cb119a.jpg",
+    "static/media/NourishAndSproutIcePops.jpg": "/static/media/NourishAndSproutIcePops.858a582449b9a01b5407.jpg",
+    "service-worker.js": "/service-worker.js",
+    "static/media/NourishAndSproutLogo.jpg": "/static/media/NourishAndSproutLogo.c9f4b0a0cee1d6a3c234.jpg",
+    "static/media/NourishAndSproutBackground.jpg": "/static/media/NourishAndSproutBackground.4e9351705b951d459fde.jpg",
+    "static/media/NourishAndSproutSmallLogo.jpg": "/static/media/NourishAndSproutSmallLogo.0c9c4cf0934b141e82c8.jpg",
+    "static/media/NourishAndSproutInstagramLogo.png": "/static/media/NourishAndSproutInstagramLogo.82245cf7ae3d728b4bb3.png",
+    "index.html": "/index.html",
+    "main.617d5405.css.map": "/static/css/main.617d5405.css.map",
+    "main.6bdef439.js.map": "/static/js/main.6bdef439.js.map",
+    "787.60adcf87.chunk.js.map": "/static/js/787.60adcf87.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.617d5405.css",
+    "static/js/main.6bdef439.js"
+  ]
+}
